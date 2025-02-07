@@ -1,9 +1,10 @@
 import { Button, Heading, MultiStep, Text } from '@ignite-ui/react';
-import { Container, Form, Header } from './styles';
+import { Container, Form, FormError, Header } from './styles';
 import { TextInput } from '../home/components/ClaimUsernameForm/styles';
 import { ArrowRight } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const registerFormSchema = z.object({
   username: z
@@ -25,7 +26,9 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>();
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerFormSchema),
+  });
 
   async function handleRegister(data: RegisterFormData) {
     console.log(data);
@@ -46,11 +49,17 @@ export default function Register() {
         <label>
           <Text size="sm">Nome de usuário</Text>
           <TextInput placeholder="seu-usuario" {...register('username')} />
+          {errors.username && (
+            <FormError size="sm">{errors.username.message}</FormError>
+          )}
         </label>
 
         <label>
           <Text size="sm">Nome completo</Text>
           <TextInput placeholder="Seu nome" {...register('fullName')} />
+          {errors.fullName && (
+            <FormError size="sm">{errors.fullName.message}</FormError>
+          )}
         </label>
 
         <Button type="submit" disabled={isSubmitting}>
