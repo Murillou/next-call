@@ -20,9 +20,9 @@ export const Hero = styled('div', {
   margin: '0 auto',
   padding: '2rem',
 
-  [`${Heading}`]: {},
+  [`> ${Heading}`]: {},
 
-  [`${Text}`]: {
+  [`> ${Text}`]: {
     color: '$gray200',
     maskType: '$2',
   },
@@ -35,7 +35,7 @@ export const Hero = styled('div', {
 
 export const Preview = styled('div', {
   display: 'none',
-  '@media(min-width: 600px)': {
+  '@media(min-width: 768px)': {
     paddingRight: '$8',
     display: 'block',
   },
