@@ -16,7 +16,7 @@ export const IntervalItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '$12 $16',
+  padding: '$3 $4',
 
   '& + &': {
     borderTop: '1px solid $gray600',
@@ -33,4 +33,8 @@ export const IntervalInputs = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '$2',
+
+  'input::-webkit-calendar-picker-indicator': {
+    filter: 'invert(100%) brightness(30%)',
+  },
 });

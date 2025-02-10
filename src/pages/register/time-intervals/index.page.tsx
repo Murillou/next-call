@@ -1,5 +1,14 @@
-import { Button, Heading, MultiStep, Text } from '@ignite-ui/react';
+import { Button, Checkbox, Heading, MultiStep, Text } from '@ignite-ui/react';
 import { Container, Header } from '../styles';
+import {
+  IntervalBox,
+  IntervalDay,
+  IntervalInputs,
+  IntervalItem,
+  IntervalsContainer,
+} from './styles';
+import { TextInput } from '@/pages/home/components/ClaimUsernameForm/styles';
+import { ArrowRight } from 'phosphor-react';
 
 export default function TimeIntervals() {
   return (
@@ -12,6 +21,40 @@ export default function TimeIntervals() {
         </Text>
         <MultiStep size={4} currentStep={3} />
       </Header>
+
+      <IntervalBox as="form">
+        <IntervalsContainer>
+          <IntervalItem>
+            <IntervalDay>
+              <Checkbox />
+
+              <Text>Segunda-feira</Text>
+            </IntervalDay>
+
+            <IntervalInputs>
+              <TextInput type="time" />
+              <TextInput type="time" />
+            </IntervalInputs>
+          </IntervalItem>
+
+          <IntervalItem>
+            <IntervalDay>
+              <Checkbox />
+
+              <Text>Terça-feira</Text>
+            </IntervalDay>
+
+            <IntervalInputs>
+              <TextInput type="time" />
+              <TextInput type="time" />
+            </IntervalInputs>
+          </IntervalItem>
+        </IntervalsContainer>
+
+        <Button type="submit">
+          Próximo passo <ArrowRight />
+        </Button>
+      </IntervalBox>
     </Container>
   );
 }
