@@ -1,4 +1,11 @@
-import { Button, Heading, MultiStep, Text, TextArea } from '@ignite-ui/react';
+import {
+  Avatar,
+  Button,
+  Heading,
+  MultiStep,
+  Text,
+  TextArea,
+} from '@ignite-ui/react';
 import { ArrowRight } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,6 +16,7 @@ import { useSession } from 'next-auth/react';
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
 import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api';
+import Image from 'next/image';
 
 const updateProfileSchema = z.object({
   bio: z.string(),
@@ -45,6 +53,12 @@ export default function UpdateProfile() {
       <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
         <label>
           <Text size="sm">Foto de perfil</Text>
+          <Image
+            src={session.data?.user.avatar_url as string}
+            width={64}
+            height={64}
+            alt={session.data?.user.name as any}
+          />
         </label>
 
         <label>
