@@ -3,11 +3,15 @@ import {
   CalendarActions,
   CalendarBody,
   CalendarContainer,
+  CalendarDay,
   CalendarHeader,
   CalendarTitle,
 } from './style';
+import { getWeekDays } from '@/utils/get-week-days';
 
 export function Calendar() {
+  const shortWeekDays = getWeekDays({ short: true });
+
   return (
     <CalendarContainer>
       <CalendarHeader>
@@ -29,15 +33,29 @@ export function Calendar() {
       <CalendarBody>
         <thead>
           <tr>
-            <th>SEG.</th>
-            <th>TER.</th>
-            <th>QUA.</th>
-            <th>QUI.</th>
-            <th>SEX.</th>
-            <th>SÁB.</th>
-            <th>DOM.</th>
+            {shortWeekDays.map(weekDay => (
+              <th key={weekDay}>{weekDay}.</th>
+            ))}
           </tr>
         </thead>
+
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <CalendarDay>1</CalendarDay>
+            </td>
+            <td>
+              <CalendarDay>2</CalendarDay>
+            </td>
+            <td>
+              <CalendarDay>3</CalendarDay>
+            </td>
+          </tr>
+        </tbody>
       </CalendarBody>
     </CalendarContainer>
   );

@@ -1,7 +1,10 @@
+import { Calendar } from '@/components/Calendar';
+import { Container } from './styles';
+
 export function CalendarStep() {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <Container>
+      <Calendar />
+    </Container>
   );
 }
