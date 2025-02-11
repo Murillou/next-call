@@ -5,6 +5,10 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Container, Header } from '../styles';
 import { FormAnnotation, ProfileBox } from './styles';
+import { useSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import { getServerSession } from 'next-auth';
+import { buildNextAuthOptions } from '@/pages/api/auth/[...nextauth].api';
 
 const updateProfileSchema = z.object({
   bio: z.string(),
@@ -21,6 +25,10 @@ export default function UpdateProfile() {
     resolver: zodResolver(updateProfileSchema),
   });
 
+  const session = useSession();
+
+  console.log(session);
+
   async function handleUpdateProfile(data: UpdateProfileData) {}
 
   return (
@@ -31,7 +39,7 @@ export default function UpdateProfile() {
           Precisamos de algumas informações para criar seu perfil! Ah, você pode
           editar essas informações depois.
         </Text>
-        <MultiStep size={4} currentStep={1} />
+        <MultiStep size={4} currentStep={4} />
       </Header>
 
       <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
@@ -54,3 +62,17 @@ export default function UpdateProfile() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res)
+  );
+
+  return {
+    props: {
+      session,
+    },
+  };
+};
