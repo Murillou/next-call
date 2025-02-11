@@ -1,20 +1,57 @@
 import Image from 'next/image';
 import { Container, UserHeader } from './styles';
 import { Heading, Text } from '@ignite-ui/react';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { prisma } from '@/lib/prisma';
 
-export default function Schedule() {
+interface ScheduleProps {
+  user: {
+    fullName: string;
+    bio: string;
+    avatarUrl: string;
+  };
+}
+
+export default function Schedule({ user }: ScheduleProps) {
   return (
     <Container>
       <UserHeader>
-        <Image
-          src="https://lh3.googleusercontent.com/a/ACg8ocJ_x484IoYuX1L75HorM81trlltGm_iIR8yr8fBZXreH6isWYU=s96-c"
-          width={64}
-          height={64}
-          alt=""
-        />
-        <Heading>Murillo Vinícius</Heading>
-        <Text>Dev Web Front-end </Text>
+        <Image src={user.avatarUrl} width={64} height={64} alt="" />
+        <Heading>{user.fullName}</Heading>
+        <Text>{user.bio}</Text>
       </UserHeader>
     </Container>
   );
 }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const username = String(params?.username);
+
+  const user = await prisma.user.findUnique({
+    where: { username },
+  });
+
+  if (!user) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      user: {
+        fullName: user.fullName,
+        bio: user.bio,
+        avatarUrl: user.avatar_url,
+      },
+    },
+    revalidate: 60 * 60 * 24, // 1 day
+  };
+};
