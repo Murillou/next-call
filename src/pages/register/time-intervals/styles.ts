@@ -35,6 +35,32 @@ export const IntervalInputs = styled('div', {
   gap: '$2',
 
   'input::-webkit-calendar-picker-indicator': {
-    filter: 'invert(100%) brightness(30%)',
+    filter: 'invert(100%) brightness(40%)',
+  },
+});
+
+export const CheckBoxInput = styled('input', {
+  appearance: 'none',
+  width: '24px',
+  height: '24px',
+  border: '2px solid $gray600',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  transition: 'background-color 0.2s ease',
+  position: 'relative',
+
+  '&:checked': {
+    backgroundColor: '$primary',
+    borderColor: '$primary',
+  },
+
+  '&:checked::after': {
+    content: '"✓"',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '18px',
+    color: '$ignite300',
   },
 });
