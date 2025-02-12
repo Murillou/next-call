@@ -18,7 +18,12 @@ interface CalendarWeek {
 
 type CalendarWeeks = CalendarWeek[];
 
-export function Calendar() {
+interface CalendarProps {
+  selectedDate?: Date | null;
+  onDateSelected: (date: Date) => void;
+}
+
+export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1);
   });
@@ -57,17 +62,17 @@ export function Calendar() {
       })
       .reverse();
 
-    const lastDayInCurrentMony = currentDate.set(
+    const lastDayInCurrentMonth = currentDate.set(
       'date',
       currentDate.daysInMonth()
     );
 
-    const lastWeekDay = lastDayInCurrentMony.get('day');
+    const lastWeekDay = lastDayInCurrentMonth.get('day');
 
     const nextMonthFieldArray = Array.from({
       length: 7 - (lastWeekDay + 1),
     }).map((_, i) => {
-      return lastDayInCurrentMony.add(i + 1, 'day');
+      return lastDayInCurrentMonth.add(i + 1, 'day');
     });
 
     const calendarDays = [
@@ -76,7 +81,7 @@ export function Calendar() {
       }),
 
       ...daysInMonthArray.map(date => {
-        return { date, disabled: false };
+        return { date, disabled: date.endOf('day').isBefore(new Date()) };
       }),
 
       ...nextMonthFieldArray.map(date => {
@@ -139,7 +144,10 @@ export function Calendar() {
                 {days.map(({ date, disabled }) => {
                   return (
                     <td key={date.toString()}>
-                      <CalendarDay disabled={disabled}>
+                      <CalendarDay
+                        onClick={() => onDateSelected(date.toDate())}
+                        disabled={disabled}
+                      >
                         {date.get('date')}
                       </CalendarDay>
                     </td>
