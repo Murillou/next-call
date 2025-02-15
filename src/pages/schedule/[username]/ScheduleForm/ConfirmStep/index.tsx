@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormError } from '@/pages/register/styles';
+import dayjs from 'dayjs';
 
 export const confirmFormSchema = z.object({
   fullName: z
@@ -17,7 +18,11 @@ export const confirmFormSchema = z.object({
 
 type ConfirmFormData = z.infer<typeof confirmFormSchema>;
 
-export function ConfirmStep() {
+interface ConfirmStepProps {
+  schedulingDate: Date;
+}
+
+export function ConfirmStep({ schedulingDate }: ConfirmStepProps) {
   const {
     register,
     handleSubmit,
@@ -30,17 +35,20 @@ export function ConfirmStep() {
     console.log(data);
   }
 
+  const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY');
+  const describedTime = dayjs(schedulingDate).format('HH:mm[h]');
+
   return (
     <ConfirmForm as="form" onSubmit={handleSubmit(handleConfirmScheduling)}>
       <FormHeader>
         <Text>
           <CalendarBlank />
-          13 de Dezembro de 2024
+          {describedDate}
         </Text>
 
         <Text>
           <Clock />
-          13:00h
+          {describedTime}
         </Text>
       </FormHeader>
 
