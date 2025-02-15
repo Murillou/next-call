@@ -14,7 +14,7 @@ export default async function handle(
   const username = String(req.query.username);
 
   const createSchedulingBodySchema = z.object({
-    name: z.string(),
+    fullName: z.string(),
     email: z.string().email(),
     observations: z.string(),
     date: z.string().datetime(),
@@ -30,9 +30,8 @@ export default async function handle(
     return res.status(400).json({ message: 'User does not exist.' });
   }
 
-  const { name, email, observations, date } = createSchedulingBodySchema.parse(
-    req.body
-  );
+  const { fullName, email, observations, date } =
+    createSchedulingBodySchema.parse(req.body);
 
   const schedulingDate = dayjs(date).startOf('hour');
 
@@ -57,7 +56,7 @@ export default async function handle(
 
   await prisma.scheduling.create({
     data: {
-      name,
+      name: fullName,
       email,
       observations,
       date: schedulingDate.toDate(),
