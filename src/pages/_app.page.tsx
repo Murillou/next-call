@@ -1,4 +1,4 @@
-import '../lib/day';
+import '../lib/dayjs';
 
 import { SessionProvider } from 'next-auth/react';
 
