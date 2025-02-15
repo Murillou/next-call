@@ -70,19 +70,19 @@ export function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
           </TimePickerHeader>
 
           <TimePickerList>
-            {availability?.possibleTimes?.map(
-              (hour: Key | null | undefined) => {
-                return (
-                  <TimePickerItem
-                    key={hour}
-                    onClick={() => handleSelectTime(hour)}
-                    disabled={!availability.availableTimes.includes(hour)}
-                  >
-                    {String(hour).padStart(2, '0')}:00h
-                  </TimePickerItem>
-                );
-              }
-            )}
+            {availability?.possibleTimes
+              ?.filter(
+                (hour: unknown): hour is number => typeof hour === 'number'
+              )
+              .map((hour: number) => (
+                <TimePickerItem
+                  key={hour}
+                  onClick={() => handleSelectTime(hour)}
+                  disabled={!availability.availableTimes.includes(hour)}
+                >
+                  {String(hour).padStart(2, '0')}:00h
+                </TimePickerItem>
+              ))}
           </TimePickerList>
         </TimePicker>
       )}
